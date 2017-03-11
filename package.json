@@ -1,0 +1,24 @@
+{
+  "name": "myfirebase",
+  "version": "0.1.0",
+  "description": "SPA framework with vuejs and firebase",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myfirebase/framework.git"
+  },
+  "keywords": [
+    "vuejs",
+    "firebase",
+    "SPA"
+  ],
+  "author": "Amrani Houssain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/myfirebase/framework/issues"
+  },
+  "homepage": "https://github.com/myfirebase/framework#readme"
+}
