@@ -1,5 +1,5 @@
 {
-  "name": "myfirebase",
+  "name": "framework",
   "version": "0.1.0",
   "description": "SPA framework with vuejs and firebase",
   "main": "./src/main.js",
@@ -13,7 +13,8 @@
   "keywords": [
     "vuejs",
     "firebase",
-    "SPA"
+    "SPA",
+    "Single Page Application"
   ],
   "author": "Amrani Houssain",
   "license": "MIT",
