@@ -1,5 +1,5 @@
 {
-  "name": "framework",
+  "name": "myfirebase",
   "version": "0.1.0",
   "description": "SPA framework with vuejs and firebase",
   "main": "./src/main.js",
