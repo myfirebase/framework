@@ -16,9 +16,7 @@ export default class Auth {
     /**
      * Login with email and password.
      *
-     * @param {string} email
-     * @param {string} password
-     * @param {function} callBack
+     * @param {object} user
      */
     loginWithEmailAndPassowrd(user) {
         this.store.commit('auth/login', {
@@ -40,8 +38,7 @@ export default class Auth {
     /**
      * Register with Email and password.
      *
-     * @param {string} email
-     * @param {string} password
+     * @param {object} user
      */
     registerWithEmailAndPassword(user) {
         this.store.commit('auth/register', {
@@ -98,11 +95,31 @@ export default class Auth {
         this.auth.onAuthStateChanged((user) => {
             if (user) {
                 distination.then(user)
-                this.router.push(distination.forward)
-                this.router.go(1)
+                if (distination.forward) {
+                    this.router.push(distination.forward)
+                    this.router.go(1)
+                }
             } else {
-                this.router.push(distination.redirect)
-                this.router.go(1)
+                distination.catch()
+                if (distination.redirect) {
+                    this.router.push(distination.redirect)
+                    this.router.go(1)
+                }
+            }
+        })
+    }
+
+    /**
+     * Auth check state changed
+     *
+     * @param {object} callBack
+     */
+    check(callBack) {
+        this.auth.onAuthStateChanged((user) => {
+            if (user) {
+                callBack.then(user)
+            } else {
+                callBack.catch()
             }
         })
     }
