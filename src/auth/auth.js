@@ -141,4 +141,8 @@ export default class Auth {
     updateProfile(profile) {
         this.store.commit('auth/updateProfile', profile);
     }
+
+    updateProfilePicture(image){
+        this.store.commit('auth/updateProfilePicture', image)
+    }
 }
