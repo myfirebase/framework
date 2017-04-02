@@ -6,10 +6,11 @@ export default class Auth {
      * @param {object} router
      */
     constructor(store, router) {
+        // store
         this.store = store
-            // Auth State
+        // Auth State
         this.auth = store.state.auth.auth
-            //Vue Router
+        //Vue Router
         this.router = router
     }
 
@@ -65,24 +66,24 @@ export default class Auth {
      * @param {function} callBack
      *
      */
-    signInWithFacebook() {
-        this.store.commit('auth/signInFacebook', this.auth)
+    signInWithFacebook(callBack) {
+        this.store.commit('auth/signInFacebook', callBack)
     }
 
     /**
      *
      *
      */
-    signInWithGithub() {
-        //TODO: use Firebase github Auth provider
+    signInWithGithub(callBack) {
+        this.store.commit('auth/signInGithub', callBack)
     }
 
     /**
      *
      *
      */
-    signInWithTwitter() {
-        //TODO: use Firebase Twitter Auth provider
+    signInWithTwitter(callBack) {
+        this.store.commit('auth/signInTwitter', callBack)
     }
 
     /**
@@ -138,10 +139,11 @@ export default class Auth {
         return this.auth.currentUser
     }
 
-    updateProfile(profile) {
-        this.store.commit('auth/updateProfile', profile);
-    }
-
+    /**
+     * Update profile picture
+     *
+     * @param {object} image
+     */
     updateProfilePicture(image){
         this.store.commit('auth/updateProfilePicture', image)
     }
