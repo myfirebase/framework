@@ -21,4 +21,4 @@ const Myfirebase = {
     }
 }
 
-export default Myfirebase
+export default Myfirebase.install
