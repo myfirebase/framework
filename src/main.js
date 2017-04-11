@@ -1,5 +1,5 @@
-import Auth from './auth.js'
-import Storage from './storage.js'
+import Auth from './auth/auth.js'
+import Storage from './storage/storage.js'
 
 // late binding
 let Vue

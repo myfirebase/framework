@@ -1,25 +1,33 @@
 {
-  "name": "myfirebase",
-  "version": "0.1.2",
-  "description": "SPA framework with vuejs and firebase",
-  "main": "./src/main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/myfirebase/framework.git"
-  },
-  "keywords": [
-    "vuejs",
-    "firebase",
-    "SPA",
-    "Single Page Application"
-  ],
-  "author": "Amrani Houssain",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/myfirebase/framework/issues"
-  },
-  "homepage": "https://github.com/myfirebase/framework#readme"
+    "name": "myfirebase",
+    "version": "0.1.2",
+    "description": "SPA framework with vuejs and firebase",
+    "main": "./dist/myfirebase.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/myfirebase/framework.git"
+    },
+    "keywords": [
+        "vuejs",
+        "firebase",
+        "SPA",
+        "Single Page Application"
+    ],
+    "author": "Amrani Houssain",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/myfirebase/framework/issues"
+    },
+    "homepage": "https://github.com/myfirebase/framework#readme",
+    "devDependencies": {
+        "babel-preset-stage-2": "^6.18.0",
+        "gulp": "^3.9.1",
+        "laravel-elixir": "^6.0.0-9",
+        "laravel-elixir-browsersync-official": "^1.0.0",
+        "laravel-elixir-vue-2": "^0.3.0",
+        "laravel-elixir-webpack-official": "^1.0.2"
+    }
 }
