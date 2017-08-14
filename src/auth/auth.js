@@ -8,8 +8,10 @@ export default class Auth {
     constructor(store, router) {
         // store
         this.store = store
+
         // Auth State
         this.auth = store.state.auth.auth
+
         //Vue Router
         this.router = router
     }
@@ -144,7 +146,7 @@ export default class Auth {
      *
      * @param {object} image
      */
-    updateProfilePicture(image){
+    updateProfilePicture(image) {
         this.store.commit('auth/updateProfilePicture', image)
     }
 }
