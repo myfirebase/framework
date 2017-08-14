@@ -13,9 +13,18 @@ let mixin = {
 const Myfirebase = {
 
     install(Vue, options) {
-
-        const {store,router} = options
+        /**
+         * Injetct store and router via Myfirebase options.
+         */
+        const { store, router } = options
         Vue.mixin(mixin)
+
+        /**
+         * Initialize Firebase Auth global instance.
+         * Initialize Firebase Cloud Storag (FCS).
+         * @var $auth
+         * @var $storage
+         */
         Vue.prototype.$auth = new Auth(options.store, options.router)
         Vue.prototype.$storage = new Storage(options.store)
     }
