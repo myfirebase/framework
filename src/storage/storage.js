@@ -16,7 +16,7 @@ export default class Storage {
     }
 
     /**
-     * upload a new file.
+     * upload a file.
      *
      * @param {object} file
      */
@@ -25,7 +25,7 @@ export default class Storage {
     }
 
     /**
-     * download file.
+     * download a file.
      * 
      * @param {object} reference
      */
