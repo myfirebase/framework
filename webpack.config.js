@@ -5,7 +5,7 @@ var path = require('path')
 module.exports = {
     entry: './src/main.js',
     output: {
-        path: path.resolve(__dirname,'./dist'),
+        path: path.resolve(__dirname, './dist'),
         filename: 'myfirebase.js',
         library: 'Myfirebase',
         libraryTarget: 'amd'
