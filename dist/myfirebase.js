@@ -6,9 +6,9 @@ define("Myfirebase", [], function() { return /******/ (function(modules) { // we
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -93,8 +93,10 @@ var Auth = function () {
 
         // store
         this.store = store;
+
         // Auth State
         this.auth = store.state.auth.auth;
+
         //Vue Router
         this.router = router;
     }
@@ -317,7 +319,7 @@ var Storage = function () {
         }
 
         /**
-         * upload a new file.
+         * upload a file.
          *
          * @param {object} file
          */
@@ -329,7 +331,7 @@ var Storage = function () {
         }
 
         /**
-         * download file.
+         * download a file.
          * 
          * @param {object} reference
          */
@@ -394,10 +396,20 @@ var mixin = {
 
 var Myfirebase = {
     install: function install(Vue, options) {
+        /**
+         * Injetct store and router via Myfirebase options.
+         */
         var store = options.store,
             router = options.router;
 
         Vue.mixin(mixin);
+
+        /**
+         * Initialize Firebase Auth global instance.
+         * Initialize Firebase Cloud Storag (FCS).
+         * @var $auth
+         * @var $storage
+         */
         Vue.prototype.$auth = new _auth2.default(options.store, options.router);
         Vue.prototype.$storage = new _storage2.default(options.store);
     }
