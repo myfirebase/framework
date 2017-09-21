@@ -30,18 +30,19 @@ export default class Storage {
      * @param {object} reference
      */
     getDownloadURL(file) {
-            let promis = this.get().ref().child(file.ref).getDownloadURL()
-            promis.then(url => {
-                file.result(url)
-            }).catch(error => {
-                file.error(error)
-            })
-        }
-        /**
-         * delete file.
-         *
-         * @param {object} file
-         */
+        let promis = this.get().ref().child(file.ref).getDownloadURL()
+        promis.then(url => {
+            file.result(url)
+        }).catch(error => {
+            file.error(error)
+        })
+    }
+
+    /**
+     * delete file.
+     *
+     * @param {object} file
+     */
     delete(file) {
         this.store.commit('storage/deleteFile', file)
     }
