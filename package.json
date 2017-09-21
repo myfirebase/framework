@@ -1,6 +1,6 @@
 {
     "name": "myfirebase",
-    "version": "0.1.4",
+    "version": "0.1.8",
     "description": "SPA framework with vuejs and firebase",
     "main": "./dist/myfirebase.js",
     "scripts": {
