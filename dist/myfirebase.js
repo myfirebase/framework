@@ -63,7 +63,7 @@ define("Myfirebase", [], function() { return /******/ (function(modules) { // we
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -258,8 +258,18 @@ var Auth = function () {
 
     }, {
         key: 'user',
-        value: function user() {
-            return this.auth.currentUser;
+        value: async function user() {
+            if (this.auth.currentUser) return this.auth.currentUser;
+
+            var user = void 0;
+            this.auth.onAuthStateChanged(function (authUser) {
+                if (authUser) {
+                    user = authUser;
+                } else {
+                    user = null;
+                }
+            });
+            return user;
         }
 
         /**
@@ -282,6 +292,49 @@ exports.default = Auth;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Database = function () {
+    /**
+     * New Database instance
+     * @param {object} store 
+     */
+    function Database(store) {
+        _classCallCheck(this, Database);
+
+        this.database = store.state.database;
+    }
+
+    /**
+     * Get firebase database root ref.
+     */
+
+
+    _createClass(Database, [{
+        key: "get",
+        value: function get() {
+            return this.database;
+        }
+    }]);
+
+    return Database;
+}();
+
+exports.default = Database;
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -346,6 +399,7 @@ var Storage = function () {
                 file.error(error);
             });
         }
+
         /**
          * delete file.
          *
@@ -365,7 +419,7 @@ var Storage = function () {
 exports.default = Storage;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -379,9 +433,13 @@ var _auth = __webpack_require__(0);
 
 var _auth2 = _interopRequireDefault(_auth);
 
-var _storage = __webpack_require__(1);
+var _storage = __webpack_require__(2);
 
 var _storage2 = _interopRequireDefault(_storage);
+
+var _database = __webpack_require__(1);
+
+var _database2 = _interopRequireDefault(_database);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -394,15 +452,28 @@ var mixin = {
     }
 };
 
+var auth = void 0;
+
+var storage = void 0;
+
+var database = void 0;
+
 var Myfirebase = {
     install: function install(Vue, options) {
         /**
          * Injetct store and router via Myfirebase options.
          */
         var store = options.store,
-            router = options.router;
+            router = options.router,
+            middlewares = options.middlewares;
+
 
         Vue.mixin(mixin);
+
+        var VueStore = options.store;
+        auth = new _auth2.default(VueStore, options.router);
+        storage = new _storage2.default(VueStore);
+        database = new _database2.default(VueStore);
 
         /**
          * Initialize Firebase Auth global instance.
@@ -410,8 +481,25 @@ var Myfirebase = {
          * @var $auth
          * @var $storage
          */
-        Vue.prototype.$auth = new _auth2.default(options.store, options.router);
-        Vue.prototype.$storage = new _storage2.default(options.store);
+        Vue.prototype.$auth = auth;
+        Vue.prototype.$storage = storage;
+        Vue.prototype.$database = database;
+        Vue.auth = auth;
+        Vue.database = database;
+        Vue.store = VueStore;
+
+        /**
+         * Global Guards middleware.
+         */
+        router.beforeEach(function (to, from, next) {
+            var myfirebase = { auth: auth, storage: storage, VueStore: VueStore };
+            var actions = { to: to, from: from, next: next
+
+                // register global middlewares
+            };options.middlewares.forEach(function (call) {
+                call(myfirebase, actions);
+            });
+        });
     }
 };
 
