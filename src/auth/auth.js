@@ -137,10 +137,10 @@ export default class Auth {
     /**
      * Get the current user.
      */
-    async user() {
-        if (this.auth.currentUser)
+    user() {
+        if (this.auth.currentUser) {
             return this.auth.currentUser
-
+        }
         let user;
         this.auth.onAuthStateChanged((authUser) => {
             if (authUser) {
