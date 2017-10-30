@@ -20,6 +20,7 @@ let database
 const Myfirebase = {
 
     install(Vue, options) {
+
         /**
          * Injetct store and router via Myfirebase options.
          */
