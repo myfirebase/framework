@@ -35,9 +35,11 @@ const Myfirebase = {
 
         /**
          * Initialize Firebase Auth global instance.
-         * Initialize Firebase Cloud Storag (FCS).
+         * Initialize Firebase Cloud Storage (FCS).
+         * Initialize Firebase realtime Database.
          * @var $auth
          * @var $storage
+         * @var $database
          */
         Vue.prototype.$auth = auth
         Vue.prototype.$storage = storage
@@ -47,13 +49,13 @@ const Myfirebase = {
         Vue.store = VueStore
 
         /**
-         * Global Guards middleware.
+         * Global Navigation Guards.
          */
         router.beforeEach((to, from, next) => {
-            var myfirebase = { auth, storage, VueStore }
+            var myfirebase = { auth, storage, database }
             var actions = { to, from, next }
 
-            // register global middlewares
+            // register global guards
             options.middlewares.forEach((call) => {
                 call(myfirebase, actions)
             })
