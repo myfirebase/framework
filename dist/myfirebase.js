@@ -258,9 +258,10 @@ var Auth = function () {
 
     }, {
         key: 'user',
-        value: async function user() {
-            if (this.auth.currentUser) return this.auth.currentUser;
-
+        value: function user() {
+            if (this.auth.currentUser) {
+                return this.auth.currentUser;
+            }
             var user = void 0;
             this.auth.onAuthStateChanged(function (authUser) {
                 if (authUser) {
@@ -460,6 +461,7 @@ var database = void 0;
 
 var Myfirebase = {
     install: function install(Vue, options) {
+
         /**
          * Injetct store and router via Myfirebase options.
          */
