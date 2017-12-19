@@ -32,6 +32,7 @@ const Myfirebase = {
         auth = new Auth(VueStore, options.router)
         storage = new Storage(VueStore)
         database = new Database(VueStore)
+        firestore = new Firestore(VueStore)
 
         /**
          * Initialize Firebase Auth global instance.
@@ -44,15 +45,19 @@ const Myfirebase = {
         Vue.prototype.$auth = auth
         Vue.prototype.$storage = storage
         Vue.prototype.$database = database
+        Vue.prototype.$firestore = firestore
+
         Vue.auth = auth
         Vue.database = database
+        Vue.storage = storage
+        Vue.firestore = firestore
         Vue.store = VueStore
 
         /**
          * Global Navigation Guards.
          */
         router.beforeEach((to, from, next) => {
-            var myfirebase = { auth, storage, database }
+            var myfirebase = { auth, storage, database, firestore }
             var actions = { to, from, next }
 
             // register global guards
