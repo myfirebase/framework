@@ -1,7 +1,7 @@
 export default class Database {
     /**
      * New Database instance
-     * @param {object} store 
+     * @param {object} Vuex
      */
     constructor(store) {
         this.database = store.state.database;
