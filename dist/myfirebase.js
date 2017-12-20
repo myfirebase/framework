@@ -63,7 +63,7 @@ define("Myfirebase", [], function() { return /******/ (function(modules) { // we
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -309,7 +309,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Database = function () {
     /**
      * New Database instance
-     * @param {object} store 
+     * @param {object} Vuex
      */
     function Database(store) {
         _classCallCheck(this, Database);
@@ -336,6 +336,49 @@ exports.default = Database;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Firestore = function () {
+    /**
+     * @constructor
+     * @param {Vuex} Vuex
+     */
+    function Firestore(Vuex) {
+        _classCallCheck(this, Firestore);
+
+        this.firestore = Vuex;
+    }
+
+    /**
+     * Get firestore
+     */
+
+
+    _createClass(Firestore, [{
+        key: "get",
+        value: function get() {
+            return this.firestore;
+        }
+    }]);
+
+    return Firestore;
+}();
+
+exports.default = Firestore;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -420,7 +463,7 @@ var Storage = function () {
 exports.default = Storage;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -434,13 +477,17 @@ var _auth = __webpack_require__(0);
 
 var _auth2 = _interopRequireDefault(_auth);
 
-var _storage = __webpack_require__(2);
+var _storage = __webpack_require__(3);
 
 var _storage2 = _interopRequireDefault(_storage);
 
 var _database = __webpack_require__(1);
 
 var _database2 = _interopRequireDefault(_database);
+
+var _firestore = __webpack_require__(2);
+
+var _firestore2 = _interopRequireDefault(_firestore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -459,6 +506,8 @@ var storage = void 0;
 
 var database = void 0;
 
+var firestore = void 0;
+
 var Myfirebase = {
     install: function install(Vue, options) {
 
@@ -476,6 +525,7 @@ var Myfirebase = {
         auth = new _auth2.default(VueStore, options.router);
         storage = new _storage2.default(VueStore);
         database = new _database2.default(VueStore);
+        firestore = new _firestore2.default(VueStore);
 
         /**
          * Initialize Firebase Auth global instance.
@@ -488,15 +538,19 @@ var Myfirebase = {
         Vue.prototype.$auth = auth;
         Vue.prototype.$storage = storage;
         Vue.prototype.$database = database;
+        Vue.prototype.$firestore = firestore;
+
         Vue.auth = auth;
         Vue.database = database;
+        Vue.storage = storage;
+        Vue.firestore = firestore;
         Vue.store = VueStore;
 
         /**
          * Global Navigation Guards.
          */
         router.beforeEach(function (to, from, next) {
-            var myfirebase = { auth: auth, storage: storage, database: database };
+            var myfirebase = { auth: auth, storage: storage, database: database, firestore: firestore };
             var actions = { to: to, from: from, next: next
 
                 // register global guards
