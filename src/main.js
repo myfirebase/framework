@@ -1,6 +1,7 @@
 import Auth from './auth/auth.js'
 import Storage from './storage/storage.js'
 import Database from './database/database.js'
+import Firestore from './firestore/firestore.js'
 
 // late binding
 let Vue
@@ -16,6 +17,8 @@ let auth
 let storage
 
 let database
+
+let firestore
 
 const Myfirebase = {
 
