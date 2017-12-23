@@ -4,5 +4,5 @@
 
 ### Added
 
-- Add firestore accecebility to middlewares (Nav guards) [l4](https://github.com/myfirebase/myfirebase/blob/master/src/middlewares/auth.js#L4).
+- Add firestore accecebility to middlewares (Nav guards) [l63](https://github.com/myfirebase/framework/blob/master/src/main.js#L63).
 
