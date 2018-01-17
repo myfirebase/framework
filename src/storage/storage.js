@@ -46,4 +46,14 @@ export default class Storage {
     delete(file) {
         this.store.commit('storage/deleteFile', file)
     }
+
+    /**
+     * upload multiple files.
+     * 
+     * @param {object} files
+     * @todo upload nultiple files through store.
+     */
+    uploadMultiple(files) {
+        // 
+    }
 }
