@@ -46,4 +46,11 @@ export default class Storage {
     delete(file) {
         this.store.commit('storage/deleteFile', file)
     }
+
+    /**
+     * Upload multiple files.
+     */
+    uploadMultiple(files) {
+        // Todo link it with state managemnet system.
+    }
 }
