@@ -54,6 +54,6 @@ export default class Storage {
      * @todo upload nultiple files through store.
      */
     uploadMultiple(files) {
-        // 
+        this.store.commit('storage/uploadFiles', files)
     }
 }
