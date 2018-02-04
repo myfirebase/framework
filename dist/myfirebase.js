@@ -455,6 +455,19 @@ var Storage = function () {
         value: function _delete(file) {
             this.store.commit('storage/deleteFile', file);
         }
+
+        /**
+         * upload multiple files.
+         * 
+         * @param {object} files
+         * @todo upload nultiple files through store.
+         */
+
+    }, {
+        key: 'uploadMultiple',
+        value: function uploadMultiple(files) {
+            this.store.commit('storage/uploadFiles', files);
+        }
     }]);
 
     return Storage;
