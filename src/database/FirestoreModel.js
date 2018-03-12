@@ -1,4 +1,6 @@
-class FirestoreModel {
+import AbstractModel from "./AbstractModel"
+
+class FirestoreModel extends AbstractModel {
 
     /**
      * Create new DatabaseModel instance.
@@ -19,7 +21,7 @@ class FirestoreModel {
     add() {
         this.defineProperties()
         this.validate(this.props)
-        
+
         return this.ref.add(this.props)
     }
 
@@ -32,7 +34,7 @@ class FirestoreModel {
      */
     delete(key) {
         this.ensureKey(key)
-        
+
         return this.ref.doc(key).delete()
     }
 
