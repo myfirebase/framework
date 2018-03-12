@@ -1,29 +1,17 @@
-export default class DatabaseModel {
-    
+import AbstractModel from "./AbstractModel"
+
+class DatabaseModel extends AbstractModel {
+
     /**
      * Create new DatabaseModel instance.
+     * 
+     * @constructor
      * 
      * @param {*} ref 
      */
     constructor(ref) {
+        super()
         this.ref = ref
-    }
-
-    /**
-     * Define subclass propertires.
-     * 
-     * @return void
-     */
-    defineProperties() {
-        let keys = Object.keys(this)
-        let values = Object.values(this)
-        keys.splice(0, 1)
-        values.splice(0, 1)
-        let props = {}
-        for (let i = 0; i < keys.length; i++) {
-            props[keys[i]] = values[i]
-        }
-        this.props = props
     }
 
     /**
@@ -43,7 +31,7 @@ export default class DatabaseModel {
      */
     push() {
         this.defineProperties()
-        this.validate()
+        this.validate(this.props)
 
         return this.ref.push(this.props)
     }
@@ -58,6 +46,7 @@ export default class DatabaseModel {
     update(key) {
         this.ensureKey(key)
         this.defineProperties()
+
         return this.ref.child(key).update(this.props)
     }
 
@@ -70,34 +59,9 @@ export default class DatabaseModel {
      */
     remove(key) {
         this.ensureKey(key)
+
         return this.ref.child(key).remove()
     }
-
-    /**
-     * Ensure document key.
-     * 
-     * @param {string} key 
-     */
-    ensureKey(key) {
-        if (key === undefined) {
-            throw new Error('Key is undefined')
-        }
-    }
-
-    /**
-     * Validate properties.
-     * 
-     * @return void
-     */
-    validate() {
-        let keys = Object.getOwnPropertyNames(this.props)
-        this.required().forEach((el) => {
-            let result = keys.find((r) => {
-                return el == r && this.props[r] != ""
-            })
-            if (result == undefined) {
-                throw new Error("Property is required")
-            }
-        })
-    }
 }
+
+export default DatabaseModel
