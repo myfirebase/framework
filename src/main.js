@@ -3,6 +3,7 @@ import Storage from './storage/storage.js'
 import Database from './database/database.js'
 import Firestore from './firestore/firestore.js'
 import DatabaseModel from './database/DatabaseModel.js'
+import FirestoreModel from './database/FirestoreModel.js'
 
 // late binding
 let Vue
@@ -73,5 +74,7 @@ const Myfirebase = {
 }
 
 export { DatabaseModel }
+
+export { FirestoreModel }
 
 export default Myfirebase.install
