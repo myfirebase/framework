@@ -10,7 +10,18 @@ class FirestoreModel extends AbstractModel {
      * @param {*} ref 
      */
     constructor(ref) {
+        super()
         this.ref = ref
+    }
+
+    /**
+     * Initialize.
+     * 
+     * @return FirestoreModel
+     */
+    init() {
+        this.defineProperties()
+        return this
     }
 
     /**
