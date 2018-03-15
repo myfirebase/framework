@@ -63,11 +63,100 @@ define("Myfirebase", [], function() { return /******/ (function(modules) { // we
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AbstractModel = function () {
+
+    /**
+     * @constructor
+     */
+    function AbstractModel() {
+        _classCallCheck(this, AbstractModel);
+    }
+
+    /**
+     * Define subclass propertires.
+     * 
+     * @return void
+     */
+
+
+    _createClass(AbstractModel, [{
+        key: "defineProperties",
+        value: function defineProperties() {
+            var keys = Object.keys(this);
+            var values = Object.values(this);
+            keys.splice(0, 1);
+            values.splice(0, 1);
+            var props = {};
+            for (var i = 0; i < keys.length; i++) {
+                props[keys[i]] = values[i];
+            }
+            this.props = props;
+        }
+
+        /**
+         * Ensure document key.
+         * 
+         * @param {string} key 
+         */
+
+    }, {
+        key: "ensureKey",
+        value: function ensureKey(key) {
+            if (key === undefined) {
+                throw new Error('Key is undefined');
+            }
+        }
+
+        /**
+         * Validate properties.
+         * 
+         * @var {*} props
+         * 
+         * @return void
+         */
+
+    }, {
+        key: "validate",
+        value: function validate(props) {
+            var _this = this;
+
+            var keys = Object.getOwnPropertyNames(props);
+            this.required().forEach(function (el) {
+                var result = keys.find(function (r) {
+                    return el == r && _this.props[r] != "";
+                });
+                if (result == undefined) {
+                    throw new Error("Property is required");
+                }
+            });
+        }
+    }]);
+
+    return AbstractModel;
+}();
+
+exports.default = AbstractModel;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -292,7 +381,230 @@ var Auth = function () {
 exports.default = Auth;
 
 /***/ }),
-/* 1 */
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _AbstractModel2 = __webpack_require__(0);
+
+var _AbstractModel3 = _interopRequireDefault(_AbstractModel2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DatabaseModel = function (_AbstractModel) {
+    _inherits(DatabaseModel, _AbstractModel);
+
+    /**
+     * Create new DatabaseModel instance.
+     * 
+     * @constructor
+     * 
+     * @param {*} ref 
+     */
+    function DatabaseModel(ref) {
+        _classCallCheck(this, DatabaseModel);
+
+        var _this = _possibleConstructorReturn(this, (DatabaseModel.__proto__ || Object.getPrototypeOf(DatabaseModel)).call(this));
+
+        _this.ref = ref;
+        return _this;
+    }
+
+    /**
+     * Initialize.
+     * 
+     * @return DatabaseModel
+     */
+
+
+    _createClass(DatabaseModel, [{
+        key: "init",
+        value: function init() {
+            this.defineProperties();
+            return this;
+        }
+
+        /**
+         * Add a document to the firebase database.
+         * 
+         * @return Promise
+         */
+
+    }, {
+        key: "push",
+        value: function push() {
+            this.defineProperties();
+            this.validate(this.props);
+
+            return this.ref.push(this.props);
+        }
+
+        /**
+         * Update a document in the firebase database.
+         * 
+         * @param {string} key
+         * 
+         * @return Promise 
+         */
+
+    }, {
+        key: "update",
+        value: function update(key) {
+            this.ensureKey(key);
+            this.defineProperties();
+
+            return this.ref.child(key).update(this.props);
+        }
+
+        /**
+         * Remove a document in the firebase database.
+         * 
+         * @param {string} key 
+         * 
+         * @return Promise
+         */
+
+    }, {
+        key: "remove",
+        value: function remove(key) {
+            this.ensureKey(key);
+
+            return this.ref.child(key).remove();
+        }
+    }]);
+
+    return DatabaseModel;
+}(_AbstractModel3.default);
+
+exports.default = DatabaseModel;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _AbstractModel2 = __webpack_require__(0);
+
+var _AbstractModel3 = _interopRequireDefault(_AbstractModel2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FirestoreModel = function (_AbstractModel) {
+    _inherits(FirestoreModel, _AbstractModel);
+
+    /**
+     * Create new DatabaseModel instance.
+     * 
+     * @constructor
+     * 
+     * @param {*} ref 
+     */
+    function FirestoreModel(ref) {
+        _classCallCheck(this, FirestoreModel);
+
+        var _this = _possibleConstructorReturn(this, (FirestoreModel.__proto__ || Object.getPrototypeOf(FirestoreModel)).call(this));
+
+        _this.ref = ref;
+        return _this;
+    }
+
+    /**
+     * Initialize.
+     * 
+     * @return FirestoreModel
+     */
+
+
+    _createClass(FirestoreModel, [{
+        key: "init",
+        value: function init() {
+            this.defineProperties();
+            return this;
+        }
+
+        /**
+         * Add new document to a collection.
+         * 
+         * @return Promise
+         */
+
+    }, {
+        key: "add",
+        value: function add() {
+            this.defineProperties();
+            this.validate(this.props);
+
+            return this.ref.add(this.props);
+        }
+
+        /**
+         * Remove a document.
+         * 
+         * @param {string} key 
+         * 
+         * @return Promise
+         */
+
+    }, {
+        key: "delete",
+        value: function _delete(key) {
+            this.ensureKey(key);
+
+            return this.ref.doc(key).delete();
+        }
+
+        /**
+         * Update a document in a collection.
+         * 
+         * @param {string} key
+         * 
+         * @return Promise 
+         */
+
+    }, {
+        key: "update",
+        value: function update(key) {
+            this.ensureKey(key);
+
+            return this.ref.doc(key).update(this.props);
+        }
+    }]);
+
+    return FirestoreModel;
+}(_AbstractModel3.default);
+
+exports.default = FirestoreModel;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -335,7 +647,7 @@ var Database = function () {
 exports.default = Database;
 
 /***/ }),
-/* 2 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -378,7 +690,7 @@ var Firestore = function () {
 exports.default = Firestore;
 
 /***/ }),
-/* 3 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -460,7 +772,6 @@ var Storage = function () {
          * upload multiple files.
          * 
          * @param {object} files
-         * @todo upload nultiple files through store.
          */
 
     }, {
@@ -476,7 +787,7 @@ var Storage = function () {
 exports.default = Storage;
 
 /***/ }),
-/* 4 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -485,22 +796,31 @@ exports.default = Storage;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.FirestoreModel = exports.DatabaseModel = undefined;
 
-var _auth = __webpack_require__(0);
+var _auth = __webpack_require__(1);
 
 var _auth2 = _interopRequireDefault(_auth);
 
-var _storage = __webpack_require__(3);
+var _storage = __webpack_require__(6);
 
 var _storage2 = _interopRequireDefault(_storage);
 
-var _database = __webpack_require__(1);
+var _database = __webpack_require__(4);
 
 var _database2 = _interopRequireDefault(_database);
 
-var _firestore = __webpack_require__(2);
+var _firestore = __webpack_require__(5);
 
 var _firestore2 = _interopRequireDefault(_firestore);
+
+var _DatabaseModel = __webpack_require__(2);
+
+var _DatabaseModel2 = _interopRequireDefault(_DatabaseModel);
+
+var _FirestoreModel = __webpack_require__(3);
+
+var _FirestoreModel2 = _interopRequireDefault(_FirestoreModel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -574,6 +894,8 @@ var Myfirebase = {
     }
 };
 
+exports.DatabaseModel = _DatabaseModel2.default;
+exports.FirestoreModel = _FirestoreModel2.default;
 exports.default = Myfirebase.install;
 
 /***/ })
