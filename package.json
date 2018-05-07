@@ -4,7 +4,7 @@
     "description": "SPA framework with vuejs and firebase",
     "main": "./dist/myfirebase.js",
     "scripts": {
-        "lint": "eslint --ext=js,dist tests karma.conf.js",
+        "lint": "eslint --fix src tests",
         "test": "karma start karma.conf.js --single-run",
         "build": "webpack"
     },
