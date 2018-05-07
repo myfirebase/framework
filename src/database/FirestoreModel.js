@@ -1,66 +1,66 @@
-import AbstractModel from "./AbstractModel"
+import AbstractModel from './AbstractModel'
 
 class FirestoreModel extends AbstractModel {
 
     /**
      * Create new DatabaseModel instance.
-     * 
+     *
      * @constructor
-     * 
-     * @param {*} ref 
+     *
+     * @param {*} ref
      */
-    constructor(ref) {
-        super()
-        this.ref = ref
-    }
+  constructor (ref) {
+    super()
+    this.ref = ref
+  }
 
     /**
      * Initialize.
-     * 
+     *
      * @return FirestoreModel
      */
-    init() {
-        this.defineProperties()
-        return this
-    }
+  init () {
+    this.defineProperties()
+    return this
+  }
 
     /**
      * Add new document to a collection.
-     * 
+     *
      * @return Promise
      */
-    add() {
-        this.defineProperties()
-        this.validate(this.props)
+  add () {
+    this.defineProperties()
+    this.validate(this.props)
 
-        return this.ref.add(this.props)
-    }
+    return this.ref.add(this.props)
+  }
 
     /**
      * Remove a document.
-     * 
-     * @param {string} key 
-     * 
+     *
+     * @param {string} key
+     *
      * @return Promise
      */
-    delete(key) {
-        this.ensureKey(key)
+  delete (key) {
+    this.ensureKey(key)
 
-        return this.ref.doc(key).delete()
-    }
+    return this.ref.doc(key).delete()
+  }
 
     /**
      * Update a document in a collection.
-     * 
+     *
      * @param {string} key
-     * 
-     * @return Promise 
+     *
+     * @return Promise
      */
-    update(key) {
-        this.ensureKey(key)
+  update (key) {
+    this.ensureKey(key)
 
-        return this.ref.doc(key).update(this.props)
-    }
+    return this.ref.doc(key).update(this.props)
+  }
 }
 
 export default FirestoreModel
