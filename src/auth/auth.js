@@ -4,15 +4,15 @@ export default class Auth {
    * @param {object} store
    * @param {object} router
    */
-  constructor(store, router) {
+  constructor (store, router) {
     // store
-    this.store = store;
+    this.store = store
 
     // Auth State
-    this.auth = store.state.auth.auth;
+    this.auth = store.state.auth.auth
 
     // Vue Router
-    this.router = router;
+    this.router = router
   }
 
   /**
@@ -20,19 +20,19 @@ export default class Auth {
    *
    * @param {object} user
    */
-  loginWithEmailAndPassword(email, password) {
-    return this.store.dispatch("auth/login", {
+  loginWithEmailAndPassword (email, password) {
+    return this.store.dispatch('auth/login', {
       email: email,
       password: password
-    });
+    })
   }
 
   /**
    * SignOut.
    *
    */
-  logout() {
-    this.store.commit("auth/logout");
+  logout () {
+    this.store.commit('auth/logout')
   }
 
   /**
@@ -40,13 +40,13 @@ export default class Auth {
    *
    * @param {object} user
    */
-  registerWithEmailAndPassword(user) {
-    this.store.commit("auth/register", {
+  registerWithEmailAndPassword (user) {
+    this.store.commit('auth/register', {
       email: user.email,
       password: user.password,
       result: user.result,
       error: user.error
-    });
+    })
   }
 
   /**
@@ -55,8 +55,8 @@ export default class Auth {
    * @param {function} callBack
    *
    */
-  signInWithGoogle(callBack) {
-    this.store.commit("auth/signInGoogle", callBack);
+  signInWithGoogle (callBack) {
+    this.store.commit('auth/signInGoogle', callBack)
   }
 
   /**
@@ -65,24 +65,24 @@ export default class Auth {
    * @param {function} callBack
    *
    */
-  signInWithFacebook(callBack) {
-    this.store.commit("auth/signInFacebook", callBack);
+  signInWithFacebook (callBack) {
+    this.store.commit('auth/signInFacebook', callBack)
   }
 
   /**
    *
    *
    */
-  signInWithGithub(callBack) {
-    this.store.commit("auth/signInGithub", callBack);
+  signInWithGithub (callBack) {
+    this.store.commit('auth/signInGithub', callBack)
   }
 
   /**
    *
    *
    */
-  signInWithTwitter(callBack) {
-    this.store.commit("auth/signInTwitter", callBack);
+  signInWithTwitter (callBack) {
+    this.store.commit('auth/signInTwitter', callBack)
   }
 
   /**
@@ -93,24 +93,24 @@ export default class Auth {
    *
    * @return Promise
    */
-  state(next, redirect) {
+  state (next, redirect) {
     return new Promise((resolve, reject) => {
       this.auth.onAuthStateChanged(user => {
         if (user) {
-          resolve(user);
-          if (typeof next === "string") {
-            this.router.push(next);
-            this.router.go(1);
+          resolve(user)
+          if (typeof next === 'string') {
+            this.router.push(next)
+            this.router.go(1)
           }
         } else {
           resolve(null)
-          if (typeof redirect == "string") {
-            this.router.push(redirect);
-            this.router.go(1);
+          if (typeof redirect === 'string') {
+            this.router.push(redirect)
+            this.router.go(1)
           }
         }
-      });
-    });
+      })
+    })
   }
 
   /**
@@ -118,23 +118,23 @@ export default class Auth {
    *
    * @return Promise
    */
-  check() {
+  check () {
     return new Promise((resolve, reject) => {
       this.auth.onAuthStateChanged(user => {
         if (user) {
-          resolve(user);
+          resolve(user)
         } else {
-          reject("Error");
+          reject('Error')
         }
-      });
-    });
+      })
+    })
   }
 
   /**
    * Get auth object.
    */
-  getAuth() {
-    return this.auth;
+  getAuth () {
+    return this.auth
   }
 
   /**
@@ -142,19 +142,19 @@ export default class Auth {
    *
    * @return {*} user
    */
-  user() {
+  user () {
     if (this.auth.currentUser) {
-      return this.auth.currentUser;
+      return this.auth.currentUser
     }
-    let user;
+    let user
     this.auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        user = authUser;
+        user = authUser
       } else {
-        user = null;
+        user = null
       }
-    });
-    return user;
+    })
+    return user
   }
 
   /**
@@ -162,7 +162,7 @@ export default class Auth {
    *
    * @param {object} image
    */
-  updateProfilePicture(image) {
-    this.store.commit("auth/updateProfilePicture", image);
+  updateProfilePicture (image) {
+    this.store.commit('auth/updateProfilePicture', image)
   }
 }
