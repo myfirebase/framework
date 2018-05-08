@@ -18,7 +18,8 @@ export default class Auth {
   /**
    * Login with email and password.
    *
-   * @param {object} user
+   * @param {string} email
+   * @param {string} password
    */
   loginWithEmailAndPassword (email, password) {
     return this.store.dispatch('auth/login', {
@@ -36,16 +37,14 @@ export default class Auth {
   }
 
   /**
-   * Register with Email and password.
+   * Register with an Email and password.
    *
    * @param {object} user
    */
-  registerWithEmailAndPassword (user) {
-    this.store.commit('auth/register', {
-      email: user.email,
-      password: user.password,
-      result: user.result,
-      error: user.error
+  registerWithEmailAndPassword (email, password) {
+    return this.store.dispatch('auth/register', {
+      email: email,
+      password: password,
     })
   }
 
