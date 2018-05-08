@@ -44,7 +44,7 @@ export default class Auth {
   registerWithEmailAndPassword (email, password) {
     return this.store.dispatch('auth/register', {
       email: email,
-      password: password,
+      password: password
     })
   }
 
