@@ -20,6 +20,8 @@ export default class Auth {
    *
    * @param {string} email
    * @param {string} password
+   *
+   * @return Promise
    */
   loginWithEmailAndPassword (email, password) {
     return this.store.dispatch('auth/login', {
@@ -30,7 +32,7 @@ export default class Auth {
 
   /**
    * SignOut.
-   *
+   * @todo logout should return a Promise.
    */
   logout () {
     this.store.commit('auth/logout')
@@ -49,39 +51,40 @@ export default class Auth {
   }
 
   /**
-   * Register using google account.
+   * SignIn using google account.
    *
-   * @param {function} callBack
-   *
+   * @return Promise
    */
-  signInWithGoogle (callBack) {
-    this.store.commit('auth/signInGoogle', callBack)
+  signInWithGoogle () {
+    return this.store.dispatch('auth/signInGoogle')
   }
 
   /**
-   * Register using facebook account.
+   * SignIn using facebook account.
    *
-   * @param {function} callBack
+   * @return Promise
    *
    */
-  signInWithFacebook (callBack) {
-    this.store.commit('auth/signInFacebook', callBack)
+  signInWithFacebook () {
+    return this.store.dispatch('auth/signInFacebook')
   }
 
   /**
+   * SignIn using github account.
    *
-   *
+   * @return Promise
    */
-  signInWithGithub (callBack) {
-    this.store.commit('auth/signInGithub', callBack)
+  signInWithGithub () {
+    return this.store.dispatch('auth/signInGithub')
   }
 
   /**
+   * SignIn using Twitter account.
    *
-   *
+   * @return Promise
    */
-  signInWithTwitter (callBack) {
-    this.store.commit('auth/signInTwitter', callBack)
+  signInWithTwitter () {
+    return this.store.dispatch('auth/signInTwitter', )
   }
 
   /**
@@ -113,7 +116,7 @@ export default class Auth {
   }
 
   /**
-   * Auth check state changed
+   * Check if the auth stat has been changed.
    *
    * @return Promise
    */
@@ -139,7 +142,7 @@ export default class Auth {
   /**
    * Get the current user.
    *
-   * @return {*} user
+   * @return {*} user|null
    */
   user () {
     if (this.auth.currentUser) {
