@@ -84,7 +84,7 @@ export default class Auth {
    * @return Promise
    */
   signInWithTwitter () {
-    return this.store.dispatch('auth/signInTwitter', )
+    return this.store.dispatch('auth/signInTwitter')
   }
 
   /**
