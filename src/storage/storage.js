@@ -16,7 +16,7 @@ export default class Storage {
   }
 
     /**
-     * upload a file.
+     * Upload a file.
      *
      * @param {object} file
      */
@@ -25,30 +25,25 @@ export default class Storage {
   }
 
     /**
-     * download a file.
+     * Download a file.
      *
-     * @param {object} reference
+     * @param {string} file
      */
-  getDownloadURL (file) {
-    let promis = this.get().ref().child(file.ref).getDownloadURL()
-    promis.then(url => {
-      file.result(url)
-    }).catch(error => {
-      file.error(error)
-    })
+  getDownloadURL (ref) {
+    return this.get().ref().child(ref).getDownloadURL()
   }
 
     /**
-     * delete file.
+     * Delete file.
      *
-     * @param {object} file
+     * @param {string} file
      */
   delete (file) {
-    this.store.commit('storage/deleteFile', file)
+    return this.store.dispatch('storage/deleteFile', file)
   }
 
     /**
-     * upload multiple files.
+     * Upload multiple files.
      *
      * @param {object} files
      */
