@@ -35,7 +35,7 @@ export default class Auth {
    * @todo logout should return a Promise.
    */
   logout () {
-    this.store.commit('auth/logout')
+    this.store.dispatch('auth/logout')
   }
 
   /**
@@ -165,6 +165,6 @@ export default class Auth {
    * @param {object} image
    */
   updateProfilePicture (image) {
-    this.store.commit('auth/updateProfilePicture', image)
+    return this.store.dispatch('auth/updateProfilePicture', image)
   }
 }
