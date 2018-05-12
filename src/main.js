@@ -5,9 +5,6 @@ import Firestore from './firestore/firestore.js'
 import DatabaseModel from './database/DatabaseModel.js'
 import FirestoreModel from './database/FirestoreModel.js'
 
-// late binding
-let Vue
-
 let mixin = {
   created: function () {
         //
@@ -32,7 +29,7 @@ const Myfirebase = {
 
     Vue.mixin(mixin)
 
-    var VueStore = options.store
+    var VueStore = store
     auth = new Auth(VueStore, options.router)
     storage = new Storage(VueStore)
     database = new Database(VueStore)
@@ -65,7 +62,7 @@ const Myfirebase = {
       var actions = { to, from, next }
 
             // register global guards
-      options.middlewares.forEach((call) => {
+      middlewares.forEach((call) => {
         call(myfirebase, actions)
       })
     })
