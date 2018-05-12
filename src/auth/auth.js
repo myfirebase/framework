@@ -1,4 +1,5 @@
 export default class Auth {
+
   /**
    * @constructor
    * @param {object} store
@@ -98,18 +99,18 @@ export default class Auth {
   state (next, redirect) {
     return new Promise((resolve, reject) => {
       this.auth.onAuthStateChanged(user => {
+        if ((typeof next !== 'string') || (typeof redirect !== 'string')) {
+          reject('Router parameter should be a string')
+        }
+
         if (user) {
           resolve(user)
-          if (typeof next === 'string') {
-            this.router.push(next)
-            this.router.go(1)
-          }
+          this.router.push(next)
+          this.router.go(1)
         } else {
           resolve(null)
-          if (typeof redirect === 'string') {
-            this.router.push(redirect)
-            this.router.go(1)
-          }
+          this.router.push(redirect)
+          this.router.go(1)
         }
       })
     })
@@ -126,7 +127,7 @@ export default class Auth {
         if (user) {
           resolve(user)
         } else {
-          reject('Error')
+          resolve(null)
         }
       })
     })
@@ -163,6 +164,8 @@ export default class Auth {
    * Update profile picture
    *
    * @param {object} image
+   *
+   * @return Promise
    */
   updateProfilePicture (image) {
     return this.store.dispatch('auth/updateProfilePicture', image)
