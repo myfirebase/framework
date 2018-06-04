@@ -74,7 +74,7 @@ define("Myfirebase", [], function() { return /******/ (function(modules) { // we
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -82,75 +82,72 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AbstractModel = function () {
+  function AbstractModel() {
+    _classCallCheck(this, AbstractModel);
+  }
 
-    /**
-     * @constructor
-     */
-    function AbstractModel() {
-        _classCallCheck(this, AbstractModel);
-    }
+  _createClass(AbstractModel, [{
+    key: 'defineProperties',
+
 
     /**
      * Define subclass propertires.
-     * 
+     *
+     * @return void
+     */
+    value: function defineProperties() {
+      var keys = Object.keys(this);
+      var values = Object.values(this);
+      keys.splice(0, 1);
+      values.splice(0, 1);
+      var props = {};
+      for (var i = 0; i < keys.length; i++) {
+        props[keys[i]] = values[i];
+      }
+
+      this.props = props;
+    }
+
+    /**
+     * Ensure document key.
+     *
+     * @param {string} key
+     */
+
+  }, {
+    key: 'ensureKey',
+    value: function ensureKey(key) {
+      if (key === undefined) {
+        throw new Error('Key is undefined');
+      }
+    }
+
+    /**
+     * Validate properties.
+     *
+     * @var {*} props
+     *
      * @return void
      */
 
+  }, {
+    key: 'validate',
+    value: function validate(props) {
+      var _this = this;
 
-    _createClass(AbstractModel, [{
-        key: "defineProperties",
-        value: function defineProperties() {
-            var keys = Object.keys(this);
-            var values = Object.values(this);
-            keys.splice(0, 1);
-            values.splice(0, 1);
-            var props = {};
-            for (var i = 0; i < keys.length; i++) {
-                props[keys[i]] = values[i];
-            }
-            this.props = props;
+      var keys = Object.getOwnPropertyNames(props);
+      this.required().forEach(function (el) {
+        var result = keys.find(function (r) {
+          return el === r && _this.props[r] !== '';
+        });
+        if (result === undefined) {
+          throw new Error('Property is required');
         }
+      });
+    }
+  }]);
 
-        /**
-         * Ensure document key.
-         * 
-         * @param {string} key 
-         */
-
-    }, {
-        key: "ensureKey",
-        value: function ensureKey(key) {
-            if (key === undefined) {
-                throw new Error('Key is undefined');
-            }
-        }
-
-        /**
-         * Validate properties.
-         * 
-         * @var {*} props
-         * 
-         * @return void
-         */
-
-    }, {
-        key: "validate",
-        value: function validate(props) {
-            var _this = this;
-
-            var keys = Object.getOwnPropertyNames(props);
-            this.required().forEach(function (el) {
-                var result = keys.find(function (r) {
-                    return el == r && _this.props[r] != "";
-                });
-                if (result == undefined) {
-                    throw new Error("Property is required");
-                }
-            });
-        }
-    }]);
-
-    return AbstractModel;
+  return AbstractModel;
 }();
 
 exports.default = AbstractModel;
@@ -163,7 +160,7 @@ exports.default = AbstractModel;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -172,210 +169,222 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Auth = function () {
 
-    /**
-     * @constructor
-     * @param {object} store
-     * @param {object} router
-     */
-    function Auth(store, router) {
-        _classCallCheck(this, Auth);
+  /**
+   * @constructor
+   * @param {object} store
+   * @param {object} router
+   */
+  function Auth(store, router) {
+    _classCallCheck(this, Auth);
 
-        // store
-        this.store = store;
+    // store
+    this.store = store;
 
-        // Auth State
-        this.auth = store.state.auth.auth;
+    // Auth State
+    this.auth = store.state.auth.auth;
 
-        //Vue Router
-        this.router = router;
+    // Vue Router
+    this.router = router;
+  }
+
+  /**
+   * Login with email and password.
+   *
+   * @param {string} email
+   * @param {string} password
+   *
+   * @return Promise
+   */
+
+
+  _createClass(Auth, [{
+    key: 'loginWithEmailAndPassword',
+    value: function loginWithEmailAndPassword(email, password) {
+      return this.store.dispatch('auth/login', {
+        email: email,
+        password: password
+      });
     }
 
     /**
-     * Login with email and password.
+     * SignOut.
+     * @todo logout should return a Promise.
+     */
+
+  }, {
+    key: 'logout',
+    value: function logout() {
+      this.store.dispatch('auth/logout');
+    }
+
+    /**
+     * Register with an Email and password.
      *
      * @param {object} user
      */
 
+  }, {
+    key: 'registerWithEmailAndPassword',
+    value: function registerWithEmailAndPassword(email, password) {
+      return this.store.dispatch('auth/register', {
+        email: email,
+        password: password
+      });
+    }
 
-    _createClass(Auth, [{
-        key: 'loginWithEmailAndPassowrd',
-        value: function loginWithEmailAndPassowrd(user) {
-            this.store.commit('auth/login', {
-                email: user.email,
-                password: user.password,
-                result: user.result,
-                error: user.error
-            });
+    /**
+     * SignIn using google account.
+     *
+     * @return Promise
+     */
+
+  }, {
+    key: 'signInWithGoogle',
+    value: function signInWithGoogle() {
+      return this.store.dispatch('auth/signInGoogle');
+    }
+
+    /**
+     * SignIn using facebook account.
+     *
+     * @return Promise
+     *
+     */
+
+  }, {
+    key: 'signInWithFacebook',
+    value: function signInWithFacebook() {
+      return this.store.dispatch('auth/signInFacebook');
+    }
+
+    /**
+     * SignIn using github account.
+     *
+     * @return Promise
+     */
+
+  }, {
+    key: 'signInWithGithub',
+    value: function signInWithGithub() {
+      return this.store.dispatch('auth/signInGithub');
+    }
+
+    /**
+     * SignIn using Twitter account.
+     *
+     * @return Promise
+     */
+
+  }, {
+    key: 'signInWithTwitter',
+    value: function signInWithTwitter() {
+      return this.store.dispatch('auth/signInTwitter');
+    }
+
+    /**
+     * Auth state changed.
+     *
+     * @param {string} next
+     * @param {string} redirect
+     *
+     * @return Promise
+     */
+
+  }, {
+    key: 'state',
+    value: function state(next, redirect) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        _this.auth.onAuthStateChanged(function (user) {
+          if (typeof next !== 'string' || typeof redirect !== 'string') {
+            reject('Router parameter should be a string');
+          }
+
+          if (user) {
+            resolve(user);
+            _this.router.push(next);
+            _this.router.go(1);
+          } else {
+            resolve(null);
+            _this.router.push(redirect);
+            _this.router.go(1);
+          }
+        });
+      });
+    }
+
+    /**
+     * Check if the auth stat has been changed.
+     *
+     * @return Promise
+     */
+
+  }, {
+    key: 'check',
+    value: function check() {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+        _this2.auth.onAuthStateChanged(function (user) {
+          if (user) {
+            resolve(user);
+          } else {
+            resolve(null);
+          }
+        });
+      });
+    }
+
+    /**
+     * Get auth object.
+     */
+
+  }, {
+    key: 'getAuth',
+    value: function getAuth() {
+      return this.auth;
+    }
+
+    /**
+     * Get the current user.
+     *
+     * @return {*} user|null
+     */
+
+  }, {
+    key: 'user',
+    value: function user() {
+      if (this.auth.currentUser) {
+        return this.auth.currentUser;
+      }
+      var user = void 0;
+      this.auth.onAuthStateChanged(function (authUser) {
+        if (authUser) {
+          user = authUser;
+        } else {
+          user = null;
         }
+      });
+      return user;
+    }
 
-        /**
-         * SignOut.
-         *
-         */
+    /**
+     * Update profile picture
+     *
+     * @param {object} image
+     *
+     * @return Promise
+     */
 
-    }, {
-        key: 'logout',
-        value: function logout() {
-            this.store.commit('auth/logout');
-        }
+  }, {
+    key: 'updateProfilePicture',
+    value: function updateProfilePicture(image) {
+      return this.store.dispatch('auth/updateProfilePicture', image);
+    }
+  }]);
 
-        /**
-         * Register with Email and password.
-         *
-         * @param {object} user
-         */
-
-    }, {
-        key: 'registerWithEmailAndPassword',
-        value: function registerWithEmailAndPassword(user) {
-            this.store.commit('auth/register', {
-                email: user.email,
-                password: user.password,
-                result: user.result,
-                error: user.error
-            });
-        }
-
-        /**
-         * Register using google account.
-         *
-         * @param {function} callBack
-         *
-         */
-
-    }, {
-        key: 'signInWithGoogle',
-        value: function signInWithGoogle(callBack) {
-            this.store.commit('auth/signInGoogle', callBack);
-        }
-
-        /**
-         * Register using facebook account.
-         *
-         * @param {function} callBack
-         *
-         */
-
-    }, {
-        key: 'signInWithFacebook',
-        value: function signInWithFacebook(callBack) {
-            this.store.commit('auth/signInFacebook', callBack);
-        }
-
-        /**
-         *
-         *
-         */
-
-    }, {
-        key: 'signInWithGithub',
-        value: function signInWithGithub(callBack) {
-            this.store.commit('auth/signInGithub', callBack);
-        }
-
-        /**
-         *
-         *
-         */
-
-    }, {
-        key: 'signInWithTwitter',
-        value: function signInWithTwitter(callBack) {
-            this.store.commit('auth/signInTwitter', callBack);
-        }
-
-        /**
-         * Auth state changed.
-         * 
-         * @param {Object} Distination redicrection
-         * @param {Function} callback
-         */
-
-    }, {
-        key: 'state',
-        value: function state(distination) {
-            var _this = this;
-
-            this.auth.onAuthStateChanged(function (user) {
-                if (user) {
-                    distination.then(user);
-                    if (distination.forward) {
-                        _this.router.push(distination.forward);
-                        _this.router.go(1);
-                    }
-                } else {
-                    distination.catch();
-                    if (distination.redirect) {
-                        _this.router.push(distination.redirect);
-                        _this.router.go(1);
-                    }
-                }
-            });
-        }
-
-        /**
-         * Auth check state changed
-         *
-         * @param {object} callBack
-         */
-
-    }, {
-        key: 'check',
-        value: function check(callBack) {
-            this.auth.onAuthStateChanged(function (user) {
-                if (user) {
-                    callBack.then(user);
-                } else {
-                    callBack.catch();
-                }
-            });
-        }
-
-        /**
-         * Get auth object.
-         */
-
-    }, {
-        key: 'getAuth',
-        value: function getAuth() {
-            return this.auth;
-        }
-
-        /**
-         * Get the current user.
-         */
-
-    }, {
-        key: 'user',
-        value: function user() {
-            if (this.auth.currentUser) {
-                return this.auth.currentUser;
-            }
-            var user = void 0;
-            this.auth.onAuthStateChanged(function (authUser) {
-                if (authUser) {
-                    user = authUser;
-                } else {
-                    user = null;
-                }
-            });
-            return user;
-        }
-
-        /**
-         * Update profile picture
-         *
-         * @param {object} image
-         */
-
-    }, {
-        key: 'updateProfilePicture',
-        value: function updateProfilePicture(image) {
-            this.store.commit('auth/updateProfilePicture', image);
-        }
-    }]);
-
-    return Auth;
+  return Auth;
 }();
 
 exports.default = Auth;
@@ -388,7 +397,7 @@ exports.default = Auth;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -406,88 +415,88 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var DatabaseModel = function (_AbstractModel) {
-    _inherits(DatabaseModel, _AbstractModel);
+  _inherits(DatabaseModel, _AbstractModel);
 
-    /**
-     * Create new DatabaseModel instance.
-     * 
-     * @constructor
-     * 
-     * @param {*} ref 
-     */
-    function DatabaseModel(ref) {
-        _classCallCheck(this, DatabaseModel);
+  /**
+   * Create new DatabaseModel instance.
+   *
+   * @constructor
+   *
+   * @param {*} ref
+   */
+  function DatabaseModel(ref) {
+    _classCallCheck(this, DatabaseModel);
 
-        var _this = _possibleConstructorReturn(this, (DatabaseModel.__proto__ || Object.getPrototypeOf(DatabaseModel)).call(this));
+    var _this = _possibleConstructorReturn(this, (DatabaseModel.__proto__ || Object.getPrototypeOf(DatabaseModel)).call(this));
 
-        _this.ref = ref;
-        return _this;
+    _this.ref = ref;
+    return _this;
+  }
+
+  /**
+   * Initialize.
+   *
+   * @return DatabaseModel
+   */
+
+
+  _createClass(DatabaseModel, [{
+    key: 'init',
+    value: function init() {
+      this.defineProperties();
+      return this;
     }
 
     /**
-     * Initialize.
-     * 
-     * @return DatabaseModel
+     * Add a document to the firebase database.
+     *
+     * @return Promise
      */
 
+  }, {
+    key: 'push',
+    value: function push() {
+      this.defineProperties();
+      this.validate(this.props);
 
-    _createClass(DatabaseModel, [{
-        key: "init",
-        value: function init() {
-            this.defineProperties();
-            return this;
-        }
+      return this.ref.push(this.props);
+    }
 
-        /**
-         * Add a document to the firebase database.
-         * 
-         * @return Promise
-         */
+    /**
+     * Update a document in the firebase database.
+     *
+     * @param {string} key
+     *
+     * @return Promise
+     */
 
-    }, {
-        key: "push",
-        value: function push() {
-            this.defineProperties();
-            this.validate(this.props);
+  }, {
+    key: 'update',
+    value: function update(key) {
+      this.ensureKey(key);
+      this.defineProperties();
 
-            return this.ref.push(this.props);
-        }
+      return this.ref.child(key).update(this.props);
+    }
 
-        /**
-         * Update a document in the firebase database.
-         * 
-         * @param {string} key
-         * 
-         * @return Promise 
-         */
+    /**
+     * Remove a document in the firebase database.
+     *
+     * @param {string} key
+     *
+     * @return Promise
+     */
 
-    }, {
-        key: "update",
-        value: function update(key) {
-            this.ensureKey(key);
-            this.defineProperties();
+  }, {
+    key: 'remove',
+    value: function remove(key) {
+      this.ensureKey(key);
 
-            return this.ref.child(key).update(this.props);
-        }
+      return this.ref.child(key).remove();
+    }
+  }]);
 
-        /**
-         * Remove a document in the firebase database.
-         * 
-         * @param {string} key 
-         * 
-         * @return Promise
-         */
-
-    }, {
-        key: "remove",
-        value: function remove(key) {
-            this.ensureKey(key);
-
-            return this.ref.child(key).remove();
-        }
-    }]);
-
-    return DatabaseModel;
+  return DatabaseModel;
 }(_AbstractModel3.default);
 
 exports.default = DatabaseModel;
@@ -500,7 +509,7 @@ exports.default = DatabaseModel;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -518,87 +527,87 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var FirestoreModel = function (_AbstractModel) {
-    _inherits(FirestoreModel, _AbstractModel);
+  _inherits(FirestoreModel, _AbstractModel);
 
-    /**
-     * Create new DatabaseModel instance.
-     * 
-     * @constructor
-     * 
-     * @param {*} ref 
-     */
-    function FirestoreModel(ref) {
-        _classCallCheck(this, FirestoreModel);
+  /**
+   * Create new DatabaseModel instance.
+   *
+   * @constructor
+   *
+   * @param {*} ref
+   */
+  function FirestoreModel(ref) {
+    _classCallCheck(this, FirestoreModel);
 
-        var _this = _possibleConstructorReturn(this, (FirestoreModel.__proto__ || Object.getPrototypeOf(FirestoreModel)).call(this));
+    var _this = _possibleConstructorReturn(this, (FirestoreModel.__proto__ || Object.getPrototypeOf(FirestoreModel)).call(this));
 
-        _this.ref = ref;
-        return _this;
+    _this.ref = ref;
+    return _this;
+  }
+
+  /**
+   * Initialize.
+   *
+   * @return FirestoreModel
+   */
+
+
+  _createClass(FirestoreModel, [{
+    key: 'init',
+    value: function init() {
+      this.defineProperties();
+      return this;
     }
 
     /**
-     * Initialize.
-     * 
-     * @return FirestoreModel
+     * Add new document to a collection.
+     *
+     * @return Promise
      */
 
+  }, {
+    key: 'add',
+    value: function add() {
+      this.defineProperties();
+      this.validate(this.props);
+      delete this.props['props'];
+      return this.ref.add(this.props);
+    }
 
-    _createClass(FirestoreModel, [{
-        key: "init",
-        value: function init() {
-            this.defineProperties();
-            return this;
-        }
+    /**
+     * Remove a document.
+     *
+     * @param {string} key
+     *
+     * @return Promise
+     */
 
-        /**
-         * Add new document to a collection.
-         * 
-         * @return Promise
-         */
+  }, {
+    key: 'delete',
+    value: function _delete(key) {
+      this.ensureKey(key);
 
-    }, {
-        key: "add",
-        value: function add() {
-            this.defineProperties();
-            this.validate(this.props);
+      return this.ref.doc(key).delete();
+    }
 
-            return this.ref.add(this.props);
-        }
+    /**
+     * Update a document in a collection.
+     *
+     * @param {string} key
+     *
+     * @return Promise
+     */
 
-        /**
-         * Remove a document.
-         * 
-         * @param {string} key 
-         * 
-         * @return Promise
-         */
+  }, {
+    key: 'update',
+    value: function update(key) {
+      this.ensureKey(key);
 
-    }, {
-        key: "delete",
-        value: function _delete(key) {
-            this.ensureKey(key);
+      return this.ref.doc(key).update(this.props);
+    }
+  }]);
 
-            return this.ref.doc(key).delete();
-        }
-
-        /**
-         * Update a document in a collection.
-         * 
-         * @param {string} key
-         * 
-         * @return Promise 
-         */
-
-    }, {
-        key: "update",
-        value: function update(key) {
-            this.ensureKey(key);
-
-            return this.ref.doc(key).update(this.props);
-        }
-    }]);
-
-    return FirestoreModel;
+  return FirestoreModel;
 }(_AbstractModel3.default);
 
 exports.default = FirestoreModel;
@@ -611,7 +620,7 @@ exports.default = FirestoreModel;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -619,29 +628,29 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Database = function () {
-    /**
-     * New Database instance
-     * @param {object} Vuex
-     */
-    function Database(store) {
-        _classCallCheck(this, Database);
+  /**
+   * New Database instance
+   * @param {object} Vuex
+   */
+  function Database(store) {
+    _classCallCheck(this, Database);
 
-        this.database = store.state.database;
+    this.database = store.state.database;
+  }
+
+  /**
+   * Get firebase database root ref.
+   */
+
+
+  _createClass(Database, [{
+    key: "get",
+    value: function get() {
+      return this.database;
     }
+  }]);
 
-    /**
-     * Get firebase database root ref.
-     */
-
-
-    _createClass(Database, [{
-        key: "get",
-        value: function get() {
-            return this.database;
-        }
-    }]);
-
-    return Database;
+  return Database;
 }();
 
 exports.default = Database;
@@ -654,7 +663,7 @@ exports.default = Database;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -662,29 +671,29 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Firestore = function () {
-    /**
-     * @constructor
-     * @param {Vuex} Vuex
-     */
-    function Firestore(Vuex) {
-        _classCallCheck(this, Firestore);
+  /**
+   * @constructor
+   * @param {Vuex} Vuex
+   */
+  function Firestore(Vuex) {
+    _classCallCheck(this, Firestore);
 
-        this.firestore = Vuex;
+    this.firestore = Vuex;
+  }
+
+  /**
+   * Get firestore
+   */
+
+
+  _createClass(Firestore, [{
+    key: "get",
+    value: function get() {
+      return this.firestore;
     }
+  }]);
 
-    /**
-     * Get firestore
-     */
-
-
-    _createClass(Firestore, [{
-        key: "get",
-        value: function get() {
-            return this.firestore;
-        }
-    }]);
-
-    return Firestore;
+  return Firestore;
 }();
 
 exports.default = Firestore;
@@ -697,7 +706,7 @@ exports.default = Firestore;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -706,82 +715,77 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Storage = function () {
 
-    /**
-     * @constructor
-     * @param {object} store
-     */
-    function Storage(store) {
-        _classCallCheck(this, Storage);
+  /**
+   * @constructor
+   * @param {object} store
+   */
+  function Storage(store) {
+    _classCallCheck(this, Storage);
 
-        this.store = store;
+    this.store = store;
+  }
+
+  /**
+   * retrieve storage object.
+   */
+
+
+  _createClass(Storage, [{
+    key: 'get',
+    value: function get() {
+      return this.store.state.storage.storage;
     }
 
     /**
-     * retrieve storage object.
+     * Upload a file.
+     *
+     * @param {object} file
      */
 
+  }, {
+    key: 'upload',
+    value: function upload(file) {
+      this.store.commit('storage/uploadFile', file);
+    }
 
-    _createClass(Storage, [{
-        key: 'get',
-        value: function get() {
-            return this.store.state.storage.storage;
-        }
+    /**
+     * Download a file.
+     *
+     * @param {string} file
+     */
 
-        /**
-         * upload a file.
-         *
-         * @param {object} file
-         */
+  }, {
+    key: 'getDownloadURL',
+    value: function getDownloadURL(ref) {
+      return this.get().ref().child(ref).getDownloadURL();
+    }
 
-    }, {
-        key: 'upload',
-        value: function upload(file) {
-            this.store.commit('storage/uploadFile', file);
-        }
+    /**
+     * Delete file.
+     *
+     * @param {string} file
+     */
 
-        /**
-         * download a file.
-         * 
-         * @param {object} reference
-         */
+  }, {
+    key: 'delete',
+    value: function _delete(file) {
+      return this.store.dispatch('storage/deleteFile', file);
+    }
 
-    }, {
-        key: 'getDownloadURL',
-        value: function getDownloadURL(file) {
-            var promis = this.get().ref().child(file.ref).getDownloadURL();
-            promis.then(function (url) {
-                file.result(url);
-            }).catch(function (error) {
-                file.error(error);
-            });
-        }
+    /**
+     * Upload multiple files.
+     *
+     * @param {object} files
+     */
 
-        /**
-         * delete file.
-         *
-         * @param {object} file
-         */
+  }, {
+    key: 'uploadMultiple',
+    value: function uploadMultiple(files) {
+      this.store.commit('storage/uploadFiles', files);
+    }
+  }]);
 
-    }, {
-        key: 'delete',
-        value: function _delete(file) {
-            this.store.commit('storage/deleteFile', file);
-        }
-
-        /**
-         * upload multiple files.
-         * 
-         * @param {object} files
-         */
-
-    }, {
-        key: 'uploadMultiple',
-        value: function uploadMultiple(files) {
-            this.store.commit('storage/uploadFiles', files);
-        }
-    }]);
-
-    return Storage;
+  return Storage;
 }();
 
 exports.default = Storage;
@@ -794,7 +798,7 @@ exports.default = Storage;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.FirestoreModel = exports.DatabaseModel = undefined;
 
@@ -824,13 +828,10 @@ var _FirestoreModel2 = _interopRequireDefault(_FirestoreModel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// late binding
-var Vue = void 0;
-
 var mixin = {
-    created: function created() {
-        //
-    }
+  created: function created() {
+    //
+  }
 };
 
 var auth = void 0;
@@ -842,56 +843,55 @@ var database = void 0;
 var firestore = void 0;
 
 var Myfirebase = {
-    install: function install(Vue, options) {
+  install: function install(Vue, options) {
+    /**
+     * Injetct store and router via Myfirebase options.
+     */
+    var store = options.store,
+        router = options.router,
+        middlewares = options.middlewares;
 
-        /**
-         * Injetct store and router via Myfirebase options.
-         */
-        var store = options.store,
-            router = options.router,
-            middlewares = options.middlewares;
 
+    Vue.mixin(mixin);
 
-        Vue.mixin(mixin);
+    var VueStore = store;
+    auth = new _auth2.default(VueStore, options.router);
+    storage = new _storage2.default(VueStore);
+    database = new _database2.default(VueStore);
+    firestore = new _firestore2.default(VueStore);
 
-        var VueStore = options.store;
-        auth = new _auth2.default(VueStore, options.router);
-        storage = new _storage2.default(VueStore);
-        database = new _database2.default(VueStore);
-        firestore = new _firestore2.default(VueStore);
+    /**
+     * Initialize Firebase Auth global instance.
+     * Initialize Firebase Cloud Storage (FCS).
+     * Initialize Firebase realtime Database.
+     * @var $auth
+     * @var $storage
+     * @var $database
+     */
+    Vue.prototype.$auth = auth;
+    Vue.prototype.$storage = storage;
+    Vue.prototype.$database = database;
+    Vue.prototype.$firestore = firestore;
 
-        /**
-         * Initialize Firebase Auth global instance.
-         * Initialize Firebase Cloud Storage (FCS).
-         * Initialize Firebase realtime Database.
-         * @var $auth
-         * @var $storage
-         * @var $database
-         */
-        Vue.prototype.$auth = auth;
-        Vue.prototype.$storage = storage;
-        Vue.prototype.$database = database;
-        Vue.prototype.$firestore = firestore;
+    Vue.auth = auth;
+    Vue.database = database;
+    Vue.storage = storage;
+    Vue.firestore = firestore;
+    Vue.store = VueStore;
 
-        Vue.auth = auth;
-        Vue.database = database;
-        Vue.storage = storage;
-        Vue.firestore = firestore;
-        Vue.store = VueStore;
+    /**
+     * Global Navigation Guards.
+     */
+    router.beforeEach(function (to, from, next) {
+      var myfirebase = { auth: auth, storage: storage, database: database, firestore: firestore };
+      var actions = { to: to, from: from, next: next
 
-        /**
-         * Global Navigation Guards.
-         */
-        router.beforeEach(function (to, from, next) {
-            var myfirebase = { auth: auth, storage: storage, database: database, firestore: firestore };
-            var actions = { to: to, from: from, next: next
-
-                // register global guards
-            };options.middlewares.forEach(function (call) {
-                call(myfirebase, actions);
-            });
-        });
-    }
+        // register global guards
+      };middlewares.forEach(function (call) {
+        call(myfirebase, actions);
+      });
+    });
+  }
 };
 
 exports.DatabaseModel = _DatabaseModel2.default;
