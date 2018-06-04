@@ -32,7 +32,7 @@ class FirestoreModel extends AbstractModel {
   add () {
     this.defineProperties()
     this.validate(this.props)
-
+    delete this.props['props']
     return this.ref.add(this.props)
   }
 
