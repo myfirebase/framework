@@ -14,6 +14,7 @@ class AbstractModel {
     for (let i = 0; i < keys.length; i++) {
       props[keys[i]] = values[i]
     }
+
     this.props = props
   }
 
