@@ -33,10 +33,11 @@ export default class Auth {
 
   /**
    * SignOut.
-   * @todo logout should return a Promise.
+   *
+   * @return Promise
    */
   logout () {
-    this.store.dispatch('auth/logout')
+    return this.store.dispatch('auth/logout')
   }
 
   /**
@@ -127,7 +128,7 @@ export default class Auth {
         if (user) {
           resolve(user)
         } else {
-          resolve(null)
+          reject('Error')
         }
       })
     })
