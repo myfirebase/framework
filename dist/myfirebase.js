@@ -208,13 +208,14 @@ var Auth = function () {
 
     /**
      * SignOut.
-     * @todo logout should return a Promise.
+     * 
+     * @return Promise
      */
 
   }, {
     key: 'logout',
     value: function logout() {
-      this.store.dispatch('auth/logout');
+      return this.store.dispatch('auth/logout');
     }
 
     /**
@@ -330,7 +331,7 @@ var Auth = function () {
           if (user) {
             resolve(user);
           } else {
-            resolve(null);
+            reject('Error');
           }
         });
       });
