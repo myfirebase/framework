@@ -208,7 +208,7 @@ var Auth = function () {
 
     /**
      * SignOut.
-     * 
+     *
      * @return Promise
      */
 
@@ -459,7 +459,7 @@ var DatabaseModel = function (_AbstractModel) {
     value: function push() {
       this.defineProperties();
       this.validate(this.props);
-
+      delete this.props['props'];
       return this.ref.push(this.props);
     }
 
