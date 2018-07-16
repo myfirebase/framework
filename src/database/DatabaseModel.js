@@ -32,7 +32,7 @@ class DatabaseModel extends AbstractModel {
   push () {
     this.defineProperties()
     this.validate(this.props)
-
+    delete this.props['props']
     return this.ref.push(this.props)
   }
 
