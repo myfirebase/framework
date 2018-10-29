@@ -631,7 +631,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Database = function () {
   /**
    * New Database instance
-   * @param {object} Vuex
+   * @param {object} store
    */
   function Database(store) {
     _classCallCheck(this, Database);
@@ -674,12 +674,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Firestore = function () {
   /**
    * @constructor
-   * @param {Vuex} Vuex
+   * @param {object} store
    */
-  function Firestore(Vuex) {
+  function Firestore(store) {
     _classCallCheck(this, Firestore);
 
-    this.firestore = Vuex;
+    this.firestore = store.state.firestore;
   }
 
   /**
@@ -858,8 +858,8 @@ var Myfirebase = {
     var VueStore = store;
     auth = new _auth2.default(VueStore, options.router);
     storage = new _storage2.default(VueStore);
-    database = new _database2.default(VueStore);
-    firestore = new _firestore2.default(VueStore);
+    database = new _database2.default(VueStore).get();
+    firestore = new _firestore2.default(VueStore).get();
 
     /**
      * Initialize Firebase Auth global instance.
@@ -871,8 +871,8 @@ var Myfirebase = {
      */
     Vue.prototype.$auth = auth;
     Vue.prototype.$storage = storage;
-    Vue.prototype.$database = database;
-    Vue.prototype.$firestore = firestore;
+    Vue.prototype.$myDatabase = database;
+    Vue.prototype.$myFirestore = firestore;
 
     Vue.auth = auth;
     Vue.database = database;
