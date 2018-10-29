@@ -32,8 +32,8 @@ const Myfirebase = {
     var VueStore = store
     auth = new Auth(VueStore, options.router)
     storage = new Storage(VueStore)
-    database = new Database(VueStore)
-    firestore = new Firestore(VueStore)
+    database = new Database(VueStore).get()
+    firestore = new Firestore(VueStore).get()
 
         /**
          * Initialize Firebase Auth global instance.
@@ -45,8 +45,8 @@ const Myfirebase = {
          */
     Vue.prototype.$auth = auth
     Vue.prototype.$storage = storage
-    Vue.prototype.$database = database
-    Vue.prototype.$firestore = firestore
+    Vue.prototype.$myDatabase = database
+    Vue.prototype.$myFirestore = firestore
 
     Vue.auth = auth
     Vue.database = database
