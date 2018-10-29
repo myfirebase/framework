@@ -1,10 +1,10 @@
 export default class Firestore {
     /**
      * @constructor
-     * @param {Vuex} Vuex
+     * @param {object} store
      */
-  constructor (Vuex) {
-    this.firestore = Vuex
+  constructor (store) {
+    this.firestore = store.state.firestore
   }
 
     /**
