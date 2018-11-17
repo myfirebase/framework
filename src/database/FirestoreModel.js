@@ -58,7 +58,7 @@ class FirestoreModel extends AbstractModel {
      */
   update (key) {
     this.ensureKey(key)
-
+    this.defineProperties()
     return this.ref.doc(key).update(this.props)
   }
 }
