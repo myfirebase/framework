@@ -603,7 +603,8 @@ var FirestoreModel = function (_AbstractModel) {
     key: 'update',
     value: function update(key) {
       this.ensureKey(key);
-
+      this.defineProperties();
+      delete this.props['props'];
       return this.ref.doc(key).update(this.props);
     }
   }]);
