@@ -1,0 +1,8 @@
+src/
+tests/
+.babelrc
+.eslintrc
+.travis.yml
+CHANGELOG.md
+package-lock.json
+webpack.config.js
