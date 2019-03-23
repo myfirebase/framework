@@ -1,6 +1,6 @@
 describe('First tests', function () {
-  it('Type of test should be a string', function () {
+  test('Type of test should be a string', function () {
     var test = '1'
-    expect(test).to.be.a('string')
+    expect(test).toEqual('1')
   })
 })
