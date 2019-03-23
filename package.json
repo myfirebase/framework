@@ -5,7 +5,7 @@
     "main": "./dist/myfirebase.js",
     "scripts": {
         "lint": "eslint --fix src tests",
-        "test": "karma start karma.conf.js --single-run",
+        "test": "jest --forceExit --detectOpenHandles",
         "build": "webpack"
     },
     "repository": {
@@ -18,7 +18,7 @@
         "SPA",
         "Single Page Application"
     ],
-    "author": "Amrani Houssain",
+    "author": "Houssain Amrani",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/myfirebase/framework/issues"
@@ -29,14 +29,15 @@
         "babel-core": "^6.24.1",
         "babel-loader": "^6.4.1",
         "babel-preset-env": "^1.3.3",
-        "babel-preset-es2015": "^6.24.1",
         "babel-preset-stage-2": "^6.18.0",
         "eslint": "^3.14.1",
         "eslint-config-standard": "^6.2.1",
         "eslint-plugin-html": "^2.0.0",
         "eslint-plugin-promise": "^3.4.0",
         "eslint-plugin-standard": "^2.0.1",
+        "jest": "^24.5.0",
         "vue": "^1.0.28",
         "webpack": "^2.6.1"
-    }
+    },
+    "jest": {}
 }
